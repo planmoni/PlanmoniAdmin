@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Calendar, User, ArrowRight, Search, TrendingUp, DollarSign, Target, Users, X } from 'lucide-react';
-import { blogDataManager, BlogPost } from '../data/blogData';
+import { blogDataManager, BlogPost } from '../src/data/blogData';
 
 const Blog: React.FC = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
