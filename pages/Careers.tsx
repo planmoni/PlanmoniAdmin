@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, MapPin, Clock, DollarSign, Users, Heart, Lightbulb, Target, Coffee, Wifi, Car, Briefcase, Eye } from 'lucide-react';
-import { careersDataManager, JobPosition } from '../data/careersData';
-import JobApplicationForm from '../components/JobApplicationForm';
+import { careersDataManager, JobPosition } from '../src/data/careersData';
+import JobApplicationForm from '../src/components/JobApplicationForm';
 
 const Careers: React.FC = () => {
   const [openPositions, setOpenPositions] = useState<JobPosition[]>([]);
