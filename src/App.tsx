@@ -1,15 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AdminApp from './admin/AdminApp';
-import About from './pages/About';
-import Blog from './pages/Blog';
-import Careers from './pages/Careers';
-import Contact from './pages/Contact';
-import HelpCenter from './pages/HelpCenter';
-import PressKit from './pages/PressKit';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import TermsOfService from './pages/TermsOfService';
-import Navigation from './pages/Navigation';
+import About from '../pages/About';
+import Blog from '../pages/Blog';
+import Careers from '../pages/Careers';
+import Contact from '../pages/Contact';
+import HelpCenter from '../pages/HelpCenter';
+import PressKit from '../pages/PressKit';
+import PrivacyPolicy from '../pages/PrivacyPolicy';
+import TermsOfService from '../pages/TermsOfService';
+import Navigation from '../pages/Navigation';
 
 const App: React.FC = () => {
   return (
