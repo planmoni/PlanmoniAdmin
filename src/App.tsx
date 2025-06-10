@@ -9,11 +9,16 @@ import HelpCenter from './pages/HelpCenter';
 import PressKit from './pages/PressKit';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
+import Navigation from './pages/Navigation';
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
+        {/* Navigation Page */}
+        <Route path="/nav" element={<Navigation />} />
+        <Route path="/navigation" element={<Navigation />} />
+        
         {/* Admin Routes */}
         <Route path="/admin/*" element={<AdminApp />} />
         
@@ -31,9 +36,9 @@ const App: React.FC = () => {
         <Route path="/terms" element={<TermsOfService />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         
-        {/* Default redirect to admin */}
-        <Route path="/" element={<Navigate to="/admin" replace />} />
-        <Route path="*" element={<Navigate to="/admin" replace />} />
+        {/* Default redirect to navigation */}
+        <Route path="/" element={<Navigate to="/nav" replace />} />
+        <Route path="*" element={<Navigate to="/nav" replace />} />
       </Routes>
     </Router>
   );
