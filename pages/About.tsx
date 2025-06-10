@@ -1,83 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Target, Users, Award, Heart, Lightbulb, Shield, Globe, TrendingUp } from 'lucide-react';
+import { aboutDataManager, TeamMember, Milestone, Value } from '../src/data/aboutData';
 
 const About: React.FC = () => {
-  const team = [
-    {
-      name: "Martins Osodi",
-      role: "CEO & Co-Founder",
-      bio: "Former fintech executive with 10+ years experience in digital banking and financial inclusion across Africa.",
-      image: "/assets/team-placeholder.jpg"
-    },
-    {
-      name: "Kemi Adebisi",
-      role: "CTO & Co-Founder",
-      bio: "Software architect and security expert who previously built payment systems for major Nigerian banks.",
-      image: "/assets/team-placeholder.jpg"
-    },
-    {
-      name: "Chinedu Okoro",
-      role: "Head of Product",
-      bio: "Product strategist with deep expertise in behavioral economics and user experience design.",
-      image: "/assets/team-placeholder.jpg"
-    },
-    {
-      name: "Folake Adeyemi",
-      role: "Head of Operations",
-      bio: "Operations leader with extensive experience in financial services compliance and risk management.",
-      image: "/assets/team-placeholder.jpg"
-    }
-  ];
+  const [missionText, setMissionText] = useState('');
+  const [storyText, setStoryText] = useState('');
+  const [team, setTeam] = useState<TeamMember[]>([]);
+  const [milestones, setMilestones] = useState<Milestone[]>([]);
+  const [values, setValues] = useState<Value[]>([]);
 
-  const values = [
-    {
-      icon: <Shield className="w-8 h-8" />,
-      title: "Security First",
-      description: "Your financial security is our top priority. We implement bank-level security measures to protect your funds and data.",
-      color: "from-blue-500 to-blue-600"
-    },
-    {
-      icon: <Heart className="w-8 h-8" />,
-      title: "User-Centric",
-      description: "Every feature we build is designed with our users' financial wellbeing and success in mind.",
-      color: "from-red-500 to-red-600"
-    },
-    {
-      icon: <Lightbulb className="w-8 h-8" />,
-      title: "Innovation",
-      description: "We continuously innovate to create better solutions for financial discipline and planning.",
-      color: "from-yellow-500 to-yellow-600"
-    },
-    {
-      icon: <Globe className="w-8 h-8" />,
-      title: "Accessibility",
-      description: "Financial planning tools should be accessible to everyone, regardless of income level or background.",
-      color: "from-green-500 to-green-600"
-    }
-  ];
+  useEffect(() => {
+    loadAboutData();
+  }, []);
 
-  const milestones = [
-    {
-      year: "2023",
-      title: "Company Founded",
-      description: "Planmoni was founded with a mission to help people develop better financial habits through technology."
-    },
-    {
-      year: "2024",
-      title: "Beta Launch",
-      description: "Launched our beta version with 1,000 early users, gathering valuable feedback and insights."
-    },
-    {
-      year: "2024",
-      title: "Seed Funding",
-      description: "Raised seed funding to accelerate product development and expand our team."
-    },
-    {
-      year: "2025",
-      title: "Public Launch",
-      description: "Officially launched Planmoni to the public, helping thousands achieve financial discipline."
+  const loadAboutData = () => {
+    const aboutContent = aboutDataManager.getAboutContent();
+    setMissionText(aboutContent.missionText);
+    setStoryText(aboutContent.storyText);
+    setTeam(aboutContent.teamMembers);
+    setMilestones(aboutContent.milestones);
+    setValues(aboutContent.values);
+  };
+
+  const getIconComponent = (iconName: string) => {
+    switch (iconName) {
+      case 'Shield': return <Shield className="w-8 h-8" />;
+      case 'Heart': return <Heart className="w-8 h-8" />;
+      case 'Lightbulb': return <Lightbulb className="w-8 h-8" />;
+      case 'Globe': return <Globe className="w-8 h-8" />;
+      case 'Target': return <Target className="w-8 h-8" />;
+      case 'Users': return <Users className="w-8 h-8" />;
+      case 'Award': return <Award className="w-8 h-8" />;
+      default: return <Shield className="w-8 h-8" />;
     }
-  ];
+  };
+
+  const getColorForIndex = (index: number) => {
+    const colors = [
+      "from-blue-500 to-blue-600",
+      "from-red-500 to-red-600", 
+      "from-yellow-500 to-yellow-600",
+      "from-green-500 to-green-600",
+      "from-purple-500 to-purple-600",
+      "from-indigo-500 to-indigo-600"
+    ];
+    return colors[index % colors.length];
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -138,20 +106,9 @@ const About: React.FC = () => {
                 Empowering Financial Discipline Through Technology
               </h2>
               <div className="space-y-4 text-lg text-gray-600">
-                <p>
-                  At Planmoni, we believe that financial discipline shouldn't be a struggle. Traditional banking gives you 
-                  access to all your money all the time, making it easy to spend impulsively and difficult to stick to 
-                  financial goals.
-                </p>
-                <p>
-                  Our solution is simple yet powerful: we help you lock away your money and receive it back on a schedule 
-                  that matches your needs. This creates natural barriers to impulsive spending while ensuring you have 
-                  access to funds when you truly need them.
-                </p>
-                <p>
-                  By combining behavioral psychology with modern technology, we're helping thousands of people across 
-                  Africa build better financial habits and achieve their goals.
-                </p>
+                {missionText.split('\n\n').map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
               </div>
             </div>
             <div className="relative">
@@ -180,9 +137,9 @@ const About: React.FC = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
-              <div key={index} className="bg-white rounded-3xl p-8 text-center hover:shadow-xl transition-shadow">
-                <div className={`w-16 h-16 bg-gradient-to-br ${value.color} rounded-2xl flex items-center justify-center mx-auto mb-6 text-white`}>
-                  {value.icon}
+              <div key={value.id} className="bg-white rounded-3xl p-8 text-center hover:shadow-xl transition-shadow">
+                <div className={`w-16 h-16 bg-gradient-to-br ${getColorForIndex(index)} rounded-2xl flex items-center justify-center mx-auto mb-6 text-white`}>
+                  {getIconComponent(value.icon)}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">{value.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{value.description}</p>
@@ -205,32 +162,15 @@ const About: React.FC = () => {
           </div>
 
           <div className="space-y-12">
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 lg:p-12">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">The Problem We Discovered</h3>
-              <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                Our founders noticed a common pattern among friends, family, and colleagues: people would receive money 
-                (salary, business income, gifts) and struggle to make it last. The issue wasn't lack of income—it was 
-                the difficulty of managing access to that income over time.
-              </p>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Traditional budgeting apps and financial advice focused on tracking and willpower, but didn't address 
-                the fundamental issue: when all your money is easily accessible, it's easy to spend it impulsively.
-              </p>
-            </div>
-
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-8 lg:p-12">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">The Solution We Built</h3>
-              <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                We realized that the solution wasn't more tracking or more willpower—it was better access control. 
-                By creating a system that locks your money away and releases it on a predetermined schedule, we could 
-                help people naturally develop better spending habits.
-              </p>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                The result is Planmoni: a financial planning tool that combines the security of a vault with the 
-                flexibility of personalized payout schedules, helping users achieve their financial goals through 
-                structured access to their own money.
-              </p>
-            </div>
+            {storyText.split('\n\n').map((section, index) => (
+              <div key={index} className={`${index % 2 === 0 ? 'bg-gradient-to-br from-blue-50 to-indigo-50' : 'bg-gradient-to-br from-green-50 to-emerald-50'} rounded-3xl p-8 lg:p-12`}>
+                <div className="text-lg text-gray-600 leading-relaxed">
+                  {section.split('\n').map((paragraph, pIndex) => (
+                    <p key={pIndex} className={pIndex > 0 ? 'mt-6' : ''}>{paragraph}</p>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -249,7 +189,7 @@ const About: React.FC = () => {
 
           <div className="space-y-8">
             {milestones.map((milestone, index) => (
-              <div key={index} className="flex items-start space-x-6">
+              <div key={milestone.id} className="flex items-start space-x-6">
                 <div className="flex-shrink-0 w-16 h-16 bg-[#1F3A8A] rounded-full flex items-center justify-center text-white font-bold">
                   {milestone.year}
                 </div>
@@ -281,7 +221,7 @@ const About: React.FC = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {team.map((member, index) => (
-              <div key={index} className="text-center group">
+              <div key={member.id} className="text-center group">
                 <div className="relative mb-6">
                   <div className="w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mx-auto flex items-center justify-center text-white text-2xl font-bold">
                     {member.name.split(' ').map(n => n[0]).join('')}

@@ -1,127 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Save, Plus, Trash2, Edit } from 'lucide-react';
-
-interface TeamMember {
-  id: string;
-  name: string;
-  role: string;
-  bio: string;
-  image: string;
-}
-
-interface Milestone {
-  id: string;
-  year: string;
-  title: string;
-  description: string;
-}
-
-interface Value {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-}
+import { aboutDataManager, TeamMember, Milestone, Value } from '../../data/aboutData';
 
 const AboutManager: React.FC = () => {
-  const [missionText, setMissionText] = useState(`At Planmoni, we believe that financial discipline shouldn't be a struggle. Traditional banking gives you access to all your money all the time, making it easy to spend impulsively and difficult to stick to financial goals.
-
-Our solution is simple yet powerful: we help you lock away your money and receive it back on a schedule that matches your needs. This creates natural barriers to impulsive spending while ensuring you have access to funds when you truly need them.
-
-By combining behavioral psychology with modern technology, we're helping thousands of people across Africa build better financial habits and achieve their goals.`);
-
-  const [storyText, setStoryText] = useState(`Our founders noticed a common pattern among friends, family, and colleagues: people would receive money (salary, business income, gifts) and struggle to make it last. The issue wasn't lack of income—it was the difficulty of managing access to that income over time.
-
-Traditional budgeting apps and financial advice focused on tracking and willpower, but didn't address the fundamental issue: when all your money is easily accessible, it's easy to spend it impulsively.
-
-We realized that the solution wasn't more tracking or more willpower—it was better access control. By creating a system that locks your money away and releases it on a predetermined schedule, we could help people naturally develop better spending habits.
-
-The result is Planmoni: a financial planning tool that combines the security of a vault with the flexibility of personalized payout schedules, helping users achieve their financial goals through structured access to their own money.`);
-
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([
-    {
-      id: '1',
-      name: 'Adebayo Ogundimu',
-      role: 'CEO & Co-Founder',
-      bio: 'Former fintech executive with 10+ years experience in digital banking and financial inclusion across Africa.',
-      image: '/assets/team-placeholder.jpg'
-    },
-    {
-      id: '2',
-      name: 'Kemi Adebisi',
-      role: 'CTO & Co-Founder',
-      bio: 'Software architect and security expert who previously built payment systems for major Nigerian banks.',
-      image: '/assets/team-placeholder.jpg'
-    },
-    {
-      id: '3',
-      name: 'Chinedu Okoro',
-      role: 'Head of Product',
-      bio: 'Product strategist with deep expertise in behavioral economics and user experience design.',
-      image: '/assets/team-placeholder.jpg'
-    },
-    {
-      id: '4',
-      name: 'Folake Adeyemi',
-      role: 'Head of Operations',
-      bio: 'Operations leader with extensive experience in financial services compliance and risk management.',
-      image: '/assets/team-placeholder.jpg'
-    }
-  ]);
-
-  const [milestones, setMilestones] = useState<Milestone[]>([
-    {
-      id: '1',
-      year: '2023',
-      title: 'Company Founded',
-      description: 'Planmoni was founded with a mission to help people develop better financial habits through technology.'
-    },
-    {
-      id: '2',
-      year: '2024',
-      title: 'Beta Launch',
-      description: 'Launched our beta version with 1,000 early users, gathering valuable feedback and insights.'
-    },
-    {
-      id: '3',
-      year: '2024',
-      title: 'Seed Funding',
-      description: 'Raised seed funding to accelerate product development and expand our team.'
-    },
-    {
-      id: '4',
-      year: '2025',
-      title: 'Public Launch',
-      description: 'Officially launched Planmoni to the public, helping thousands achieve financial discipline.'
-    }
-  ]);
-
-  const [values, setValues] = useState<Value[]>([
-    {
-      id: '1',
-      title: 'Security First',
-      description: 'Your financial security is our top priority. We implement bank-level security measures to protect your funds and data.',
-      icon: 'Shield'
-    },
-    {
-      id: '2',
-      title: 'User-Centric',
-      description: 'Every feature we build is designed with our users\' financial wellbeing and success in mind.',
-      icon: 'Heart'
-    },
-    {
-      id: '3',
-      title: 'Innovation',
-      description: 'We continuously innovate to create better solutions for financial discipline and planning.',
-      icon: 'Lightbulb'
-    },
-    {
-      id: '4',
-      title: 'Accessibility',
-      description: 'Financial planning tools should be accessible to everyone, regardless of income level or background.',
-      icon: 'Globe'
-    }
-  ]);
+  const [missionText, setMissionText] = useState('');
+  const [storyText, setStoryText] = useState('');
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [milestones, setMilestones] = useState<Milestone[]>([]);
+  const [values, setValues] = useState<Value[]>([]);
 
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [showMilestoneModal, setShowMilestoneModal] = useState(false);
@@ -146,36 +32,47 @@ The result is Planmoni: a financial planning tool that combines the security of 
     icon: 'Shield'
   });
 
+  // Load data on component mount
+  useEffect(() => {
+    loadAboutData();
+  }, []);
+
+  const loadAboutData = () => {
+    const aboutContent = aboutDataManager.getAboutContent();
+    setMissionText(aboutContent.missionText);
+    setStoryText(aboutContent.storyText);
+    setTeamMembers(aboutContent.teamMembers);
+    setMilestones(aboutContent.milestones);
+    setValues(aboutContent.values);
+  };
+
   const handleSave = () => {
-    // In a real app, this would save to a backend
+    // Save all current state to the data manager
+    aboutDataManager.updateMissionText(missionText);
+    aboutDataManager.updateStoryText(storyText);
+    aboutDataManager.updateTeamMembers(teamMembers);
+    aboutDataManager.updateMilestones(milestones);
+    aboutDataManager.updateValues(values);
+    
     alert('Changes saved successfully!');
   };
 
   const handleAddTeamMember = () => {
-    const member: TeamMember = {
-      id: Date.now().toString(),
-      ...newTeamMember
-    };
+    const member = aboutDataManager.addTeamMember(newTeamMember);
     setTeamMembers([...teamMembers, member]);
     setNewTeamMember({ name: '', role: '', bio: '', image: '' });
     setShowTeamModal(false);
   };
 
   const handleAddMilestone = () => {
-    const milestone: Milestone = {
-      id: Date.now().toString(),
-      ...newMilestone
-    };
+    const milestone = aboutDataManager.addMilestone(newMilestone);
     setMilestones([...milestones, milestone]);
     setNewMilestone({ year: '', title: '', description: '' });
     setShowMilestoneModal(false);
   };
 
   const handleAddValue = () => {
-    const value: Value = {
-      id: Date.now().toString(),
-      ...newValue
-    };
+    const value = aboutDataManager.addValue(newValue);
     setValues([...values, value]);
     setNewValue({ title: '', description: '', icon: 'Shield' });
     setShowValueModal(false);
@@ -183,18 +80,21 @@ The result is Planmoni: a financial planning tool that combines the security of 
 
   const handleDeleteTeamMember = (id: string) => {
     if (confirm('Are you sure you want to remove this team member?')) {
+      aboutDataManager.deleteTeamMember(id);
       setTeamMembers(teamMembers.filter(member => member.id !== id));
     }
   };
 
   const handleDeleteMilestone = (id: string) => {
     if (confirm('Are you sure you want to delete this milestone?')) {
+      aboutDataManager.deleteMilestone(id);
       setMilestones(milestones.filter(milestone => milestone.id !== id));
     }
   };
 
   const handleDeleteValue = (id: string) => {
     if (confirm('Are you sure you want to delete this value?')) {
+      aboutDataManager.deleteValue(id);
       setValues(values.filter(value => value.id !== id));
     }
   };
