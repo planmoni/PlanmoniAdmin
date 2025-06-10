@@ -77,7 +77,9 @@ const Blog: React.FC = () => {
                 </button>
               </div>
               <div className="flex items-center space-x-3">
-                <img src="/assets/AppLogo.png" alt="Planmoni" className="h-8 w-8" />
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">P</span>
+                </div>
                 <span className="text-xl font-bold text-[#1F3A8A]">Planmoni</span>
               </div>
             </div>
@@ -239,7 +241,9 @@ const Blog: React.FC = () => {
               </a>
             </div>
             <div className="flex items-center space-x-3">
-              <img src="/assets/AppLogo.png" alt="Planmoni" className="h-8 w-8" />
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">P</span>
+              </div>
               <span className="text-xl font-bold text-[#1F3A8A]">Planmoni</span>
             </div>
           </div>

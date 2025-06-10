@@ -128,7 +128,9 @@ const Careers: React.FC = () => {
               </a>
             </div>
             <div className="flex items-center space-x-3">
-              <img src="/assets/AppLogo.png" alt="Planmoni" className="h-8 w-8" />
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">P</span>
+              </div>
               <span className="text-xl font-bold text-[#1F3A8A]">Planmoni</span>
             </div>
           </div>
@@ -206,11 +208,9 @@ const Careers: React.FC = () => {
               </div>
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-r from-blue-200 to-purple-200 rounded-3xl opacity-20 blur-xl"></div>
-                <img 
-                  src="/assets/StayDisciplined.png" 
-                  alt="Team Impact" 
-                  className="relative w-full rounded-3xl shadow-2xl"
-                />
+                <div className="relative w-full h-80 bg-gradient-to-br from-blue-400 to-purple-500 rounded-3xl shadow-2xl flex items-center justify-center">
+                  <div className="text-white text-6xl font-bold opacity-20">IMPACT</div>
+                </div>
               </div>
             </div>
           </div>
