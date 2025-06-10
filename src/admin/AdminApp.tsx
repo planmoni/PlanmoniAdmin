@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
 import BlogManager from './components/BlogManager';
@@ -55,23 +55,21 @@ const AdminApp: React.FC = () => {
   }
 
   return (
-    <Router>
-      <AdminLayout onLogout={handleLogout}>
-        <Routes>
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/blog" element={<BlogManager />} />
-          <Route path="/admin/careers" element={<CareersManager />} />
-          <Route path="/admin/applications" element={<ApplicationsManager />} />
-          <Route path="/admin/press-kit" element={<PressKitManager />} />
-          <Route path="/admin/about" element={<AboutManager />} />
-          <Route path="/admin/help-center" element={<HelpCenterManager />} />
-          <Route path="/admin/contact" element={<ContactManager />} />
-          <Route path="/admin/privacy-policy" element={<PrivacyPolicyManager />} />
-          <Route path="/admin/terms" element={<TermsManager />} />
-          <Route path="*" element={<Navigate to="/admin\" replace />} />
-        </Routes>
-      </AdminLayout>
-    </Router>
+    <AdminLayout onLogout={handleLogout}>
+      <Routes>
+        <Route path="/" element={<AdminDashboard />} />
+        <Route path="/blog" element={<BlogManager />} />
+        <Route path="/careers" element={<CareersManager />} />
+        <Route path="/applications" element={<ApplicationsManager />} />
+        <Route path="/press-kit" element={<PressKitManager />} />
+        <Route path="/about" element={<AboutManager />} />
+        <Route path="/help-center" element={<HelpCenterManager />} />
+        <Route path="/contact" element={<ContactManager />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyManager />} />
+        <Route path="/terms" element={<TermsManager />} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
+      </Routes>
+    </AdminLayout>
   );
 };
 
